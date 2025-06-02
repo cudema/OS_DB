@@ -1072,6 +1072,7 @@ MonoBehaviour:
   - {x: 1.5, y: 4, z: 7}
   targetPrefap: {fileID: 2223394183259790745, guid: f935e2fc19a378140b926d9a1e8fa377, type: 3}
   spawnCount: 4
+  EtinctionTime: 4
   manager: {fileID: 1977306803}
 --- !u!4 &1401137111
 Transform:

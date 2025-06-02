@@ -13,7 +13,9 @@ public class TargetSpawner : MonoBehaviour
     [SerializeField][Range(0, 8)]
     int spawnCount = 1;
     [SerializeField]
-    GameManager manager;
+    public float EtinctionTime = 4;
+    [SerializeField]
+    public GameManager manager;
 
     MemoryPool memoryPool;
 
@@ -55,6 +57,5 @@ public class TargetSpawner : MonoBehaviour
         target.transform.position = SpawndTargetList[index];
         SpawndTargetList.Add(temp);
         SpawndTargetList.RemoveAt(index);
-        manager.AddScore();
     }
 }
