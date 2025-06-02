@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //시작시 초기화
     public void StartGame()
     {
         targetSpawner.StartShootTarget();
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         score = 0;
     }
 
+    //게임 종료시 실행
     public void EndGame()
     {
         targetSpawner.EndShootTarget();

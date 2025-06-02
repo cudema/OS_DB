@@ -15,6 +15,7 @@ public class Target : MonoBehaviour
         StartCoroutine(EtinctionTarget());
     }
 
+    //타겟을 맞췄을 때 실행
     public void Hit()
     {
         spawner.ChangeTargetVector(this);
@@ -23,6 +24,7 @@ public class Target : MonoBehaviour
         StartCoroutine(EtinctionTarget());
     }
 
+    //타겟이 자동 삭제되는 부분
     IEnumerator EtinctionTarget()
     {
         yield return new WaitForSeconds(spawner.EtinctionTime);

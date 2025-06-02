@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraContoller : MonoBehaviour
+public class CameraContoller : MonoBehaviour  //화면 회전
 {
     [SerializeField]
     float xMoveSpeed;

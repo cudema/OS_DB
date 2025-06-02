@@ -10,6 +10,7 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    //히트 스켄하는 부분
     void ShootRay()
     {
         RaycastHit hit;
