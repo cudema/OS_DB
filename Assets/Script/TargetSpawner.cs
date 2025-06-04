@@ -6,22 +6,26 @@ using UnityEngine;
 public class TargetSpawner : MonoBehaviour
 {
     [SerializeField]
-    List<Vector3> targetVectorList = new List<Vector3>();
-    List<Vector3> SpawndTargetList = new List<Vector3>();
+    List<Vector3> targetVectorList = new List<Vector3>();   //타겟 위치 원본
+    List<Vector3> SpawndTargetList = new List<Vector3>();   //타겟 위치 복사본
     [SerializeField]
     GameObject targetPrefap;
-    [SerializeField][Range(0, 8)]
+    [SerializeField]
+    [Range(0, 8)]
     int spawnCount = 1;
     [SerializeField]
-    GameManager manager;
+    public float EtinctionTime = 4;
+    [SerializeField]
+    public GameManager manager;
 
     MemoryPool memoryPool;
 
     private void Awake()
     {
-        
+
     }
 
+    //시작시 지정한 수 만큼의 타겟 소환
     public void StartShootTarget()
     {
         memoryPool = new MemoryPool(targetPrefap, spawnCount);
@@ -29,12 +33,14 @@ public class TargetSpawner : MonoBehaviour
         SpawnTarget();
     }
 
+    //끝날 때 타겟 삭제
     public void EndShootTarget()
     {
         SpawndTargetList.Clear();
         memoryPool.DestroyObjects();
     }
 
+    //타겟을 소환
     void SpawnTarget()
     {
         for (int i = 0; i < spawnCount; i++)
@@ -47,6 +53,7 @@ public class TargetSpawner : MonoBehaviour
         }
     }
 
+    //타겟이 사라지고 다시 나타날 때 위치 설정
     public void ChangeTargetVector(Target target)
     {
         int index = Random.Range(0, SpawndTargetList.Count);
@@ -55,6 +62,5 @@ public class TargetSpawner : MonoBehaviour
         target.transform.position = SpawndTargetList[index];
         SpawndTargetList.Add(temp);
         SpawndTargetList.RemoveAt(index);
-        manager.AddScore();
     }
 }
