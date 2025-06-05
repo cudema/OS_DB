@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -12,10 +13,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject aim;
     [SerializeField]
-    GameObject ScoreBoard;
-
+    GameObject currentScore;
     [SerializeField]
+    GameObject scoreB;
+
     int score;
+    [SerializeField]
+    int maxGameTime = 60;
+
+    float currentGameTime = 0;
 
     public int Score
     {
@@ -43,6 +49,29 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+
+        if (currentGameTime >= maxGameTime)
+        {
+            currentGameTime = 0;
+            EndGame();
+        }
+
+        if (IsGamePlsying)
+        {
+            currentGameTime += Time.deltaTime;
+        }
+    }
+
+    public void BStartHitscan()
+    {
+        targetSpawner.ChangeGameMode(GameMode.HitScan);
+        StartGame();
+    }
+
+    public void BStartTraking()
+    {
+        targetSpawner.ChangeGameMode(GameMode.Traking);
+        StartGame();
     }
 
     //시작시 초기화
@@ -51,7 +80,7 @@ public class GameManager : MonoBehaviour
         targetSpawner.StartShootTarget();
         allUI.SetActive(false);
         aim.SetActive(true);
-        ScoreBoard.SetActive(true);
+        currentScore.SetActive(true);
         IsGamePlsying = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -62,16 +91,28 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         targetSpawner.EndShootTarget();
-        allUI.SetActive(true);
+        currentScore.SetActive(false);
         aim.SetActive(false);
-        ScoreBoard.SetActive(false);
+        scoreB.SetActive(true);
+        SetScoreB();
         IsGamePlsying = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void AddScore()
+    public void ResetGame()
     {
-        score++;
+        allUI.SetActive(true);
+        scoreB.SetActive(false);
+    }
+
+    public void AddScore(int addScore)
+    {
+        score += addScore;
+    }
+
+    void SetScoreB()
+    {
+        scoreB.transform.GetComponentInChildren<TextMeshProUGUI>().text = $"Score: {score}";
     }
 }
