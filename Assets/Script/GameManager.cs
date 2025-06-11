@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject scoreB;
 
+    [SerializeField]
+    Gun gun;
+
     int score;
     [SerializeField]
     int maxGameTime = 60;
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
         allUI.SetActive(false);
         aim.SetActive(true);
         currentScore.SetActive(true);
+        gun.ResetGun();
         IsGamePlsying = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

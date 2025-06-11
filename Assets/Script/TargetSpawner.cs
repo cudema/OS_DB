@@ -63,7 +63,6 @@ public class TargetSpawner : MonoBehaviour
     //끝날 때 타겟 삭제
     public void EndShootTarget()
     {
-        currentStageData = null;
         SpawndTargetList.Clear();
         memoryPool.DestroyObjects();
     }

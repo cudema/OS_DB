@@ -129,4 +129,11 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(muzzleFlashDuration);
         Destroy(flash);
     }
+
+    public void ResetGun()
+    {
+        StopAllCoroutines();
+        currentAmmo = maxAmmo;
+        isReloading = false;
+    }
 }
