@@ -30,9 +30,9 @@ public class TargetSpawner : MonoBehaviour
     SizeType sizeType;
 
     [SerializeField]
-    TMP_Dropdown moveTypeDropdown;
+    TMP_Dropdown[] moveTypeDropdown = new TMP_Dropdown[2];
     [SerializeField]
-    TMP_Dropdown sizeTypeDropdown;
+    TMP_Dropdown[] sizeTypeDropdown = new TMP_Dropdown[2];
 
     List<Vector3> SpawndTargetList = new List<Vector3>();   //타겟 위치 복사본
 
@@ -98,11 +98,12 @@ public class TargetSpawner : MonoBehaviour
     public void ChangeGameMode(GameMode mode)
     {
         currentStageData = stageData[(int)mode];
+        manager.gameMode = mode;
     }
 
     public void ChangeMoveMode()
     {
-        moveType = (MoveType)moveTypeDropdown.value;
-        sizeType = (SizeType)sizeTypeDropdown.value;
+        moveType = (MoveType)moveTypeDropdown[(int)manager.gameMode].value;
+        sizeType = (SizeType)sizeTypeDropdown[(int)manager.gameMode].value;
     }
 }

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     float currentGameTime = 0;
 
+    public GameMode gameMode;
+
     public int Score
     {
         private set => score = value;
@@ -62,16 +64,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void BStartHitscan()
+    public void BStartGame()
     {
-        targetSpawner.ChangeGameMode(GameMode.HitScan);
         StartGame();
     }
 
-    public void BStartTraking()
+    public void BChangeModeToHitscan()
+    {
+        targetSpawner.ChangeGameMode(GameMode.HitScan);
+    }
+
+    public void BChangeModeToTraking()
     {
         targetSpawner.ChangeGameMode(GameMode.Traking);
-        StartGame();
     }
 
     //시작시 초기화
