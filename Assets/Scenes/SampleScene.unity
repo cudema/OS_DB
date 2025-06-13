@@ -1323,6 +1323,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3076247774919977249, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
   m_PrefabInstance: {fileID: 776972575}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &467699422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467699418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e216042d3d3394b9d7b3f4ef773626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textPrefab: {fileID: 8113661460674871105, guid: 1e92d44a83d5e264b8c748e3e95c3c7d, type: 3}
+  parentObject:
+  - {fileID: 1028081538}
+  - {fileID: 910879885}
 --- !u!1 &473518822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,6 +2178,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1488669939}
     m_Modifications:
+    - target: {fileID: 504114149591519272, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504114149591519272, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 1653903148682865392, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2334,6 +2358,30 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7098471948563090479, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1977306803}
+    - target: {fileID: 7098471948563090479, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: openRankingBeard
+      value: 
+      objectReference: {fileID: 467699422}
+    - target: {fileID: 7865881914771709963, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015778446588087074, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_AllowSwitchOff
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8129899448374513697, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388487482906725000, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      propertyPath: m_AllowSwitchOff
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8855968855814737770, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
       propertyPath: m_Name
       value: Menu
@@ -2345,7 +2393,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8855968855814737770, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 467699422}
   m_SourcePrefab: {fileID: 100100000, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
 --- !u!1 &798009153
 GameObject:
@@ -2579,6 +2630,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903236927}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!224 &910879885 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1528764450280068762, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+  m_PrefabInstance: {fileID: 776972575}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &926836484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3037,6 +3093,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020295345}
   m_CullTransparentMesh: 1
+--- !u!224 &1028081538 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 138845056041730351, guid: d006654ee78cb3848941720e9bd8202c, type: 3}
+  m_PrefabInstance: {fileID: 776972575}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1079479038
 GameObject:
   m_ObjectHideFlags: 0
@@ -4240,6 +4301,8 @@ MonoBehaviour:
     targetPrefap: {fileID: 7307832708341796344, guid: 8dc29d4b2979af94fb170a8f9e9f9a30, type: 3}
     spawnCount: 3
   EtinctionTime: 4
+  moveType: 0
+  sizeType: 0
   moveTypeDropdown:
   - {fileID: 754459376}
   - {fileID: 454599845}

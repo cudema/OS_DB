@@ -109,6 +109,7 @@ public class Gun : MonoBehaviour
                 StartCoroutine(ShowMuzzleFlash());
             }
         }
+
     }
 
     System.Collections.IEnumerator Reload()

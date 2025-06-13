@@ -31,6 +31,12 @@ public class MenuUI : MonoBehaviour
     public TextMeshProUGUI ChallengeRecord;
     public TextMeshProUGUI RunTimeRecord;
 
+    [Header("")]
+    [SerializeField]
+    OpenRankingBeard openRankingBeard;
+    [SerializeField]
+    GameManager gameManager;
+
     //토글 리스트
     private List<Toggle> Menutoggles = new List<Toggle>();
     private List<Toggle> RecordToggles = new List<Toggle>();
@@ -43,12 +49,20 @@ public class MenuUI : MonoBehaviour
 
         foreach (var toggle in Menutoggles)
         {
-            toggle.onValueChanged.AddListener((isOn) => OnToggleChanged(Menutoggles));
+            toggle.onValueChanged.AddListener(isOn =>
+            {
+                if (!isOn) return;            // 꺼지는 이벤트는 무시
+                OnToggleChanged(Menutoggles);   // 켜질 때만 실행
+            });
         }
 
         foreach (var toggle in RecordToggles)
         {
-            toggle.onValueChanged.AddListener((isOn) => OnToggleChanged(RecordToggles));
+            toggle.onValueChanged.AddListener(isOn =>
+            {
+                if (!isOn) return;
+                OnToggleChanged(RecordToggles);
+            });
         }
     }
 
@@ -132,14 +146,17 @@ public class MenuUI : MonoBehaviour
         HitScan.SetActive(false);
         Tracking.SetActive(false);
         RunningTime.SetActive(false);
+        openRankingBeard.DestroyTextPrefab();
 
         if (selectedToggle.name == "HitScanRecord")
         {
             HitScan.SetActive(true);
+            openRankingBeard.SetScoreBeard(GameMode.HitScan);
         }   
         else if (selectedToggle.name == "TrackingRecord")
         {
             Tracking.SetActive(true);
+            openRankingBeard.SetScoreBeard(GameMode.Traking);
         }    
         else if (selectedToggle.name == "RunningTime")
         {

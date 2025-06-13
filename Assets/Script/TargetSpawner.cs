@@ -26,8 +26,8 @@ public class TargetSpawner : MonoBehaviour
     [SerializeField]
     public float EtinctionTime = 4;
 
-    MoveType moveType;
-    SizeType sizeType;
+    public MoveType moveType;
+    public SizeType sizeType;
 
     [SerializeField]
     TMP_Dropdown[] moveTypeDropdown = new TMP_Dropdown[2];

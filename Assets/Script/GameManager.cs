@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DBManager.Init();
     }
 
     private void Update()
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
     //게임 종료시 실행
     public void EndGame()
     {
+        DBManager.AddRanking(gameMode, "qwer", targetSpawner.sizeType, targetSpawner.moveType, Score);
         targetSpawner.EndShootTarget();
         currentScore.SetActive(false);
         aim.SetActive(false);
