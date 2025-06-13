@@ -87,7 +87,6 @@ public static class DBManager
         do
         {
             currentRanking = int.Parse(reader["Ranking"].ToString());
-            Debug.Log(currentRanking);
             if (score > int.Parse(reader["Score"].ToString()))
             {
                 reader.Close();
@@ -201,5 +200,96 @@ public static class DBManager
             Debug.Log("로그인 실패");
             return false;
         }
+    }
+
+    public static int GetHighScore(GameMode gameMode, string userID)
+    {
+        string currentScore;
+
+        if (gameMode == GameMode.HitScan)
+        {
+            currentScore = "HitscanHighScore";
+        }
+        else
+        {
+            currentScore = "TrakingHighScore";
+        }
+
+        var cmd = conn.CreateCommand();
+        cmd.CommandText = $"SELECT {currentScore} FROM UserTBL WHERE UserID = @id";
+
+        var param1 = cmd.CreateParameter();
+        param1.ParameterName = "@id";
+        param1.Value = userID;
+        cmd.Parameters.Add(param1);
+
+        cmd.ExecuteNonQuery();
+
+        var reader = cmd.ExecuteReader();
+
+        if (reader[currentScore] == null)
+        {
+            return 0;
+        }
+
+        return int.Parse(reader[currentScore].ToString());
+    }
+
+    public static void SetHighScore(GameMode gameMode, string userID, int score)
+    {
+        string currentScore;
+
+        if (gameMode == GameMode.HitScan)
+        {
+            currentScore = "HitscanHighScore";
+        }
+        else
+        {
+            currentScore = "TrakingHighScore";
+        }
+
+        var cmd = conn.CreateCommand();
+        cmd.CommandText = $"SELECT {currentScore} FROM UserTBL WHERE UserID = @id";
+
+        var param = cmd.CreateParameter();
+        param.ParameterName = "@id";
+        param.Value = userID;
+        cmd.Parameters.Add(param);
+
+        cmd.ExecuteNonQuery();
+
+        var reader = cmd.ExecuteReader();
+
+        if (!reader.Read())
+        {
+            return;
+        }
+
+        if (reader[currentScore] == null)
+        {
+            var cmd1 = conn.CreateCommand();
+            cmd1.CommandText = $"UPDATE UserTBL SET {currentScore} = {score} WHERE UserID = @id";
+
+            var param1 = cmd1.CreateParameter();
+            param1.ParameterName = "@id";
+            param1.Value = userID;
+            cmd1.Parameters.Add(param);
+
+            cmd1.ExecuteNonQuery();
+            return;
+        }
+
+        if (int.Parse(reader[currentScore].ToString()) < score)
+        {
+            var cmd1 = conn.CreateCommand();
+            cmd1.CommandText = $"UPDATE UserTBL SET {currentScore} = {score} WHERE UserID = @id";
+
+            var param1 = cmd1.CreateParameter();
+            param1.ParameterName = "@id";
+            param1.Value = userID;
+            cmd1.Parameters.Add(param);
+
+            cmd1.ExecuteNonQuery();
+        }    
     }
 }
