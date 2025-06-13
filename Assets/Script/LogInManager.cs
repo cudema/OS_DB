@@ -32,6 +32,9 @@ public class LogInManager : MonoBehaviour
         if(DBManager.LogIn(ID, PW))
         {
             gameManager.currentUserName = ID;
+
+            RunTimeTracker.Instance.userId = ID;
+
             LogInPanel.SetActive(false);
             MenuUI.SetActive(true);
         }
