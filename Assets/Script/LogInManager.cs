@@ -4,22 +4,50 @@ using TMPro;
 
 public class LogInManager : MonoBehaviour
 {
+    [Header("LogIn")]
     public GameObject LogInPanel;
     public Button LogInButton;
-    public TMP_InputField inputID;
-    public TMP_InputField inputPW;
+    public Button SignUpStartButton;
+    public TMP_InputField L_inputID;
+    public TMP_InputField L_inputPW;
+
+    [Header("SignUp")]
+    public GameObject SignUpPanel;
+    public Button SignUpButton;
+    public TMP_InputField S_inputID;
+    public TMP_InputField S_inputPW;
 
 
     public void LogIn()
     {
-        string ID = inputID.text;
-        string PW = inputPW.text;
+        string ID = L_inputID.text;
+        string PW = L_inputPW.text;
 
         Debug.Log($"로그인 시도: ID = {ID}, PW = {PW}");
 
-        inputID.text = "";
-        inputPW.text = "";
+        L_inputID.text = "";
+        L_inputPW.text = "";
 
         LogInPanel.SetActive(false);
+    }
+
+    public void SignUpStart()
+    {
+        LogInPanel.SetActive(false);
+        SignUpPanel.SetActive(true);
+    }
+
+    public void SignUp()
+    {
+        string ID = S_inputID.text;
+        string PW = S_inputPW.text;
+
+        Debug.Log($"회원가입 시도: ID = {ID}, PW = {PW}");
+
+        S_inputID.text = "";
+        S_inputPW.text = "";
+
+        LogInPanel.SetActive(true);
+        SignUpPanel.SetActive(false);
     }
 }
