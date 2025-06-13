@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int maxGameTime = 60;
 
-    float currentGameTime = 0;
+    public float currentGameTime = 0;
 
     public GameMode gameMode;
 
@@ -58,15 +58,15 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
 
-        if (currentGameTime >= maxGameTime)
+        if (currentGameTime < 0)
         {
-            currentGameTime = 0;
+            currentGameTime = maxGameTime;
             EndGame();
         }
 
         if (IsGamePlsying)
         {
-            currentGameTime += Time.deltaTime;
+            currentGameTime -= Time.deltaTime;
         }
     }
 
@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
         IsGamePlsying = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        currentGameTime = maxGameTime;
         score = 0;
     }
 
@@ -103,6 +104,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         DBManager.AddRanking(gameMode, currentUserName, targetSpawner.sizeType, targetSpawner.moveType, Score);
+        DBManager.SetHighScore(gameMode, currentUserName, Score);
         targetSpawner.EndShootTarget();
         currentScore.SetActive(false);
         aim.SetActive(false);
