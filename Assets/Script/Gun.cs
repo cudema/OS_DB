@@ -2,29 +2,30 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [Header("ÃÑ±â ÆÄ¶ó¹ÌÅÍ")]
-    public float fireRate = 10f;               // ÃÊ´ç ¹ß»ç¼ö
-    public int maxAmmo = 30;                   // ÀåÅº¼ö
-    public float reloadTime = 1.5f;            // ÀåÀü ½Ã°£
+    [Header("ì´ê¸° íŒŒë¼ë¯¸í„°")]
+    public float fireRate = 10f;               // ì´ˆë‹¹ ë°œì‚¬ìˆ˜
+    public bool isInfiniteAmmo = false;        // ë¬´í•œ íƒ„ì°½ ëª¨ë“œ
+    public int maxAmmo = 30;                   // ì¥íƒ„ìˆ˜
+    public float reloadTime = 1.5f;            // ì¥ì „ ì‹œê°„
 
     [Range(1f, 2000f)]
-    public float range = 500f;                 // Inspector¿¡¼­ 1~2000 ÀÔ·Â, ½ÇÁ¦ »ç°Å¸®´Â RANGE_SCALE °ö
-    private const float RANGE_SCALE = 100f;    // ½ÇÁ¦ ÆÇÁ¤ »ç°Å¸® ¹èÀ²
+    public float range = 500f;                 // Inspectorì—ì„œ 1~2000 ì…ë ¥, ì‹¤ì œ ì‚¬ê±°ë¦¬ëŠ” RANGE_SCALE ê³±
+    private const float RANGE_SCALE = 100f;    // ì‹¤ì œ íŒì • ì‚¬ê±°ë¦¬ ë°°ìœ¨
 
-    public float bulletRadius = 0.05f;         // ÆÇÁ¤ ±¸ ¹İÁö¸§(Áö¸§ 0.1)
+    public float bulletRadius = 0.05f;         // íŒì • êµ¬ ë°˜ì§€ë¦„(ì§€ë¦„ 0.1)
 
-    [Header("±ËÀû(Tracer) ¿É¼Ç")]
-    public bool useTracer = true;              // Inspector¿¡¼­ ±ËÀû ON/OFF
-    public GameObject tracerPrefab;            // LineRenderer ÇÁ¸®ÆÕ (¾øÀ¸¸é Debug.DrawLine)
+    [Header("ê¶¤ì (Tracer) ì˜µì…˜")]
+    public bool useTracer = true;              // Inspectorì—ì„œ ê¶¤ì  ON/OFF
+    public GameObject tracerPrefab;            // LineRenderer í”„ë¦¬íŒ¹ (ì—†ìœ¼ë©´ Debug.DrawLine)
 
-    [Header("¸ÓÁñ ÇÃ·¡½Ã(ÃÑ±¸ È­¿°) ¿É¼Ç")]
-    public bool useMuzzleFlash = true;         // Inspector¿¡¼­ ON/OFF
-    public GameObject muzzleFlashPrefab;       // ¸ÓÁñ ÇÃ·¡½Ã ÇÁ¸®ÆÕ
-    public float muzzleFlashDuration = 0.06f;  // ÃÑ±¸È­¿° Áö¼Ó½Ã°£
+    [Header("ë¨¸ì¦ í”Œë˜ì‹œ(ì´êµ¬ í™”ì—¼) ì˜µì…˜")]
+    public bool useMuzzleFlash = true;         // Inspectorì—ì„œ ON/OFF
+    public GameObject muzzleFlashPrefab;       // ë¨¸ì¦ í”Œë˜ì‹œ í”„ë¦¬íŒ¹
+    public float muzzleFlashDuration = 0.06f;  // ì´êµ¬í™”ì—¼ ì§€ì†ì‹œê°„
 
-    [Header("ÂüÁ¶")]
-    public Camera mainCam;                     // Main Camera ¿¬°á
-    public Transform muzzlePoint;              // ÃÑ±¸ À§Ä¡ (Gun ÀÚ½Ä MuzzlePoint ¿¬°á)
+    [Header("ì°¸ì¡°")]
+    public Camera mainCam;                     // Main Camera ì—°ê²°
+    public Transform muzzlePoint;              // ì´êµ¬ ìœ„ì¹˜ (Gun ìì‹ MuzzlePoint ì—°ê²°)
 
     private int currentAmmo;
     private float fireCooldown = 0f;
@@ -43,23 +44,25 @@ public class Gun : MonoBehaviour
     {
         fireCooldown -= Time.deltaTime;
 
-        // ¹ß»ç(ÁÂÅ¬¸¯)
-        if (!isReloading && Input.GetButton("Fire1") && fireCooldown <= 0f && currentAmmo > 0)
+        // ë°œì‚¬(ì¢Œí´ë¦­)
+        if (!isReloading && Input.GetButton("Fire1") && fireCooldown <= 0f && (isInfiniteAmmo || currentAmmo > 0))
             Fire();
 
-        // ÀåÀü(RÅ°)
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
+        // ì¥ì „(Rí‚¤)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && !isInfiniteAmmo)
             StartCoroutine(Reload());
     }
 
     void Fire()
     {
         fireCooldown = 1f / fireRate;
-        currentAmmo--;
+
+        if(!isInfiniteAmmo)
+            currentAmmo--;
 
         float realRange = range * RANGE_SCALE;
 
-        // Ä«¸Ş¶ó(¿¡ÀÓ) Áß½É¿¡¼­ Raycast
+        // ì¹´ë©”ë¼(ì—ì„) ì¤‘ì‹¬ì—ì„œ Raycast
         Vector3 fireOrigin = mainCam.transform.position;
         Vector3 fireDir = mainCam.transform.forward;
         Ray ray = new Ray(fireOrigin, fireDir);
@@ -72,7 +75,7 @@ public class Gun : MonoBehaviour
             if (Physics.SphereCast(ray, bulletRadius, out hit, realRange))
             {
                 hitPoint = hit.point;
-                Debug.Log("ÃÑ¾ËÀÌ ¸ÂÀº ¹°Ã¼: " + hit.collider.name);
+                Debug.Log("ì´ì•Œì´ ë§ì€ ë¬¼ì²´: " + hit.collider.name);
                 if (hit.collider.tag.Equals("Target"))
                 {
                     Debug.Log("hit");
@@ -86,7 +89,7 @@ public class Gun : MonoBehaviour
 
             Vector3 tracerOrigin = muzzlePoint.position;
 
-            // 1. ±ËÀû(Tracer) ±â´É
+            // 1. ê¶¤ì (Tracer) ê¸°ëŠ¥
             if (useTracer)
             {
                 if (tracerPrefab != null)
@@ -103,7 +106,7 @@ public class Gun : MonoBehaviour
                 }
             }
 
-            // 2. ¸ÓÁñ ÇÃ·¡½Ã(ÃÑ±¸ È­¿°) ±â´É
+            // 2. ë¨¸ì¦ í”Œë˜ì‹œ(ì´êµ¬ í™”ì—¼) ê¸°ëŠ¥
             if (useMuzzleFlash && muzzleFlashPrefab != null && muzzlePoint != null)
             {
                 StartCoroutine(ShowMuzzleFlash());
@@ -114,11 +117,11 @@ public class Gun : MonoBehaviour
     System.Collections.IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("ÀåÀü Áß...");
+        Debug.Log("ì¥ì „ ì¤‘...");
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
         isReloading = false;
-        Debug.Log("ÀåÀü ¿Ï·á");
+        Debug.Log("ì¥ì „ ì™„ë£Œ");
     }
 
     private System.Collections.IEnumerator ShowMuzzleFlash()
