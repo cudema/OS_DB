@@ -156,7 +156,7 @@ public static class DBManager
         }
 
         var cmd = conn.CreateCommand();
-        cmd.CommandText = "INSERT INTO UserTBL(UserID, Pasword) VALUES(@id, @password);";
+        cmd.CommandText = "INSERT INTO UserTBL VALUES(@id, @password, 0, 0);";
 
         var param1 = cmd.CreateParameter();
         param1.ParameterName = "@id";
