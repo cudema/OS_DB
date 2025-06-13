@@ -14,6 +14,7 @@ public class LogInManager : MonoBehaviour
     [Header("SignUp")]
     public GameObject SignUpPanel;
     public Button SignUpButton;
+    public Button BackButton;
     public TMP_InputField S_inputID;
     public TMP_InputField S_inputPW;
 
@@ -29,7 +30,7 @@ public class LogInManager : MonoBehaviour
         string ID = L_inputID.text;
         string PW = L_inputPW.text;
 
-        if(DBManager.LogIn(ID, PW))
+        if (DBManager.LogIn(ID, PW))
         {
             gameManager.currentUserName = ID;
             LogInPanel.SetActive(false);
@@ -44,6 +45,12 @@ public class LogInManager : MonoBehaviour
     {
         LogInPanel.SetActive(false);
         SignUpPanel.SetActive(true);
+    }
+
+    public void BackLogInPanel()
+    {
+        LogInPanel.SetActive(true);
+        SignUpPanel.SetActive(false);
     }
 
     public void SignUp()
