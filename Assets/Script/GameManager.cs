@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     public GameMode gameMode;
 
+    public string currentUserName;
+
     public int Score
     {
         private set => score = value;
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
     //게임 종료시 실행
     public void EndGame()
     {
-        DBManager.AddRanking(gameMode, "qwer", targetSpawner.sizeType, targetSpawner.moveType, Score);
+        DBManager.AddRanking(gameMode, currentUserName, targetSpawner.sizeType, targetSpawner.moveType, Score);
         targetSpawner.EndShootTarget();
         currentScore.SetActive(false);
         aim.SetActive(false);

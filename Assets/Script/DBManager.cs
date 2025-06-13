@@ -152,7 +152,7 @@ public static class DBManager
 
         if(checkID > 0)
         {
-            Debug.LogWarning("회원가입 실패: 이미 존재하는 ID입니다.");
+            Debug.Log("이미 존재하는 ID입니다.");
             return;
         }
 
@@ -170,7 +170,36 @@ public static class DBManager
         cmd.Parameters.Add(param2);
 
         cmd.ExecuteNonQuery();
-        Debug.LogWarning("회원가입 성공");
+        Debug.Log("회원가입 성공");
         return;
+    }
+
+    public static bool LogIn(string userID, string Password)
+    {
+        var cmd = conn.CreateCommand();
+        cmd.CommandText = "SELECT COUNT(*) FROM UserTBL WHERE UserID = @id AND Pasword = @password;";
+
+        var param1 = cmd.CreateParameter();
+        param1.ParameterName = "@id";
+        param1.Value = userID;
+        cmd.Parameters.Add(param1);
+
+        var param2 = cmd.CreateParameter();
+        param2.ParameterName = "@password";
+        param2.Value = Password;
+        cmd.Parameters.Add(param2);
+
+        int check = Convert.ToInt32(cmd.ExecuteScalar());
+
+        if(check > 0)
+        {
+            Debug.Log("로그인 성공");           
+            return true;
+        }
+        else
+        {
+            Debug.Log("로그인 실패");
+            return false;
+        }
     }
 }

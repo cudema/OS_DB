@@ -17,18 +17,27 @@ public class LogInManager : MonoBehaviour
     public TMP_InputField S_inputID;
     public TMP_InputField S_inputPW;
 
+    [SerializeField]
+    private GameObject MenuUI;
+
+    [SerializeField]
+    private GameManager gameManager;
+
 
     public void LogIn()
     {
         string ID = L_inputID.text;
         string PW = L_inputPW.text;
 
-        Debug.Log($"로그인 시도: ID = {ID}, PW = {PW}");
+        if(DBManager.LogIn(ID, PW))
+        {
+            gameManager.currentUserName = ID;
+            LogInPanel.SetActive(false);
+            MenuUI.SetActive(true);
+        }
 
         L_inputID.text = "";
         L_inputPW.text = "";
-
-        LogInPanel.SetActive(false);
     }
 
     public void SignUpStart()
