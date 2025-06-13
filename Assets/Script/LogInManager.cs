@@ -42,7 +42,7 @@ public class LogInManager : MonoBehaviour
         string ID = S_inputID.text;
         string PW = S_inputPW.text;
 
-        Debug.Log($"회원가입 시도: ID = {ID}, PW = {PW}");
+        DBManager.SignUp(ID, PW);
 
         S_inputID.text = "";
         S_inputPW.text = "";

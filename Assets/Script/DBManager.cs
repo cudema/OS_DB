@@ -4,6 +4,7 @@ using System.Data;
 using UnityEngine;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine.SocialPlatforms.Impl;
+using System;
 
 public static class DBManager
 {
@@ -135,5 +136,41 @@ public static class DBManager
         }
 
         return temp;
+    }
+
+    public static void SignUp(string userID, string Password)
+    {
+        var checkcmd = conn.CreateCommand();
+        checkcmd.CommandText = "SELECT COUNT(UserID) FROM UserTBL WHERE UserID = @id;";
+
+        var checkparam = checkcmd.CreateParameter();
+        checkparam.ParameterName = "@id";
+        checkparam.Value = userID;
+        checkcmd.Parameters.Add(checkparam);
+
+        int checkID = Convert.ToInt32(checkcmd.ExecuteScalar());
+
+        if(checkID > 0)
+        {
+            Debug.LogWarning("회원가입 실패: 이미 존재하는 ID입니다.");
+            return;
+        }
+
+        var cmd = conn.CreateCommand();
+        cmd.CommandText = "INSERT INTO UserTBL(UserID, Pasword, HighScore) VALUES(@id, @password, -1);";
+
+        var param1 = cmd.CreateParameter();
+        param1.ParameterName = "@id";
+        param1.Value = userID;
+        cmd.Parameters.Add(param1);
+
+        var param2 = cmd.CreateParameter();
+        param2.ParameterName = "@password";
+        param2.Value = Password;
+        cmd.Parameters.Add(param2);
+
+        cmd.ExecuteNonQuery();
+        Debug.LogWarning("회원가입 성공");
+        return;
     }
 }
